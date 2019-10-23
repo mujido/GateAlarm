@@ -1,52 +1,12 @@
-# Prerequisites
-*.d
+# Output gerber files
+hardware/gerber
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# Atmel START backups
+code/GateAlarm/.atmel-start-backup
 
-# Linker output
-*.ilk
-*.map
-*.exp
+# Build artifacts
+code/GateAlarm/Debug
+code/GateAlarm/Release
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Hardware backup files
+hardware/*-bak

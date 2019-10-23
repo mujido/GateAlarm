@@ -1,0 +1,280 @@
+EESchema Schematic File Version 5
+LIBS:gate_alarm-cache
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 2
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+Comment5 ""
+Comment6 ""
+Comment7 ""
+Comment8 ""
+Comment9 ""
+$EndDescr
+$Comp
+L power:GND #PWR?
+U 1 1 5DAF583C
+P 2450 2600
+F 0 "#PWR?" H 2450 2350 50  0001 C CNN
+F 1 "GND" H 2455 2427 50  0000 C CNN
+F 2 "" H 2450 2600 50  0001 C CNN
+F 3 "" H 2450 2600 50  0001 C CNN
+	1    2450 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L hall_effect_sensors:A3144 U?
+U 1 1 5DAF583D
+P 1250 1850
+F 0 "U?" H 1100 2350 50  0000 R CNN
+F 1 "A3144" H 1500 1250 50  0000 R CNN
+F 2 "" H 1250 1850 50  0001 C CNN
+F 3 "https://www.elecrow.com/download/A3141-2-3-4-Datasheet.pdf" H 1250 1850 50  0001 C CNN
+	1    1250 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Q_NMOS_GSD Q?
+U 1 1 5DAF583E
+P 2950 2150
+F 0 "Q?" H 3150 2100 50  0000 L CNN
+F 1 "DMG2302" H 3100 2000 50  0000 L CNN
+F 2 "" H 3150 2250 50  0001 C CNN
+F 3 "~" H 2950 2150 50  0001 C CNN
+	1    2950 2150
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	1850 1850 1700 1850
+Wire Wire Line
+	1850 1350 1850 1200
+Wire Wire Line
+	1850 1200 1250 1200
+Wire Wire Line
+	1850 1650 1850 1850
+Wire Wire Line
+	3100 1800 3100 1500
+Wire Wire Line
+	3100 1500 2750 1500
+Text Label 2750 1500 0    50   ~ 0
+CPU_SHUTDOWN
+Text Label 1700 1050 0    50   ~ 0
+CPU_ACTIVE
+Text Notes 1200 2950 0    50   ~ 0
+Spurious startup prevented \nby large R1 and C1 to give \nabout 100ms delay to CPU \nstarting
+Text Label 3300 1150 2    50   ~ 0
+OPEN
+$Comp
+L Device:CP C?
+U 1 1 5DAF583F
+P 2150 2150
+F 0 "C?" H 2268 2196 50  0000 L CNN
+F 1 "10u" H 2268 2105 50  0000 L CNN
+F 2 "" H 2188 2000 50  0001 C CNN
+F 3 "~" H 2150 2150 50  0001 C CNN
+	1    2150 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DAF5840
+P 1850 1500
+F 0 "R?" H 1920 1546 50  0000 L CNN
+F 1 "10k" H 1920 1455 50  0000 L CNN
+F 2 "" V 1780 1500 50  0001 C CNN
+F 3 "~" H 1850 1500 50  0001 C CNN
+	1    1850 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DAF5841
+P 1850 2150
+F 0 "R?" H 1700 2200 50  0000 L CNN
+F 1 "100k" H 1600 2100 50  0000 L CNN
+F 2 "" V 1780 2150 50  0001 C CNN
+F 3 "~" H 1850 2150 50  0001 C CNN
+	1    1850 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L 74xx:74LS14 U?
+U 1 1 5DAF5842
+P 2750 1150
+F 0 "U?" H 2750 1467 50  0000 C CNN
+F 1 "74LS14" H 2750 1376 50  0000 C CNN
+F 2 "" H 2750 1150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74LS14" H 2750 1150 50  0001 C CNN
+	1    2750 1150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 1150 3300 1150
+Wire Wire Line
+	3350 2500 3350 2600
+Wire Wire Line
+	3750 1600 3750 1200
+Wire Wire Line
+	3350 2600 2850 2600
+Wire Wire Line
+	2400 1850 2500 1850
+Wire Wire Line
+	2150 1850 2400 1850
+Wire Wire Line
+	2400 1150 2450 1150
+Wire Wire Line
+	2400 1850 2400 1150
+Wire Wire Line
+	2850 1950 2850 1850
+Wire Wire Line
+	2150 1350 2150 1050
+Wire Wire Line
+	2850 1850 2800 1850
+Wire Wire Line
+	1850 2000 1850 1850
+Wire Wire Line
+	2150 2000 2150 1850
+Wire Wire Line
+	1850 2300 1850 2600
+Wire Wire Line
+	2150 2300 2150 2600
+Connection ~ 1850 1850
+Wire Wire Line
+	3750 2500 3750 2600
+Wire Wire Line
+	3750 2600 3350 2600
+Wire Wire Line
+	3750 2000 3750 2150
+Wire Wire Line
+	1850 2600 1250 2600
+Wire Wire Line
+	2150 2600 1850 2600
+Wire Wire Line
+	2150 2600 2450 2600
+Wire Wire Line
+	2150 1850 1850 1850
+Connection ~ 3350 2600
+Wire Wire Line
+	3750 2150 3350 2150
+Wire Wire Line
+	2150 1050 1700 1050
+Wire Wire Line
+	3150 2150 3350 2150
+Wire Wire Line
+	3350 2150 3350 2200
+Wire Wire Line
+	2450 2600 2850 2600
+Wire Wire Line
+	2850 2350 2850 2600
+Wire Wire Line
+	3750 2200 3750 2150
+$Comp
+L Transistor_BJT:2N3904 Q?
+U 1 1 5DAF5843
+P 3650 1800
+F 0 "Q?" H 3840 1846 50  0000 L CNN
+F 1 "2N3904" H 3840 1755 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 3850 1725 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3650 1800 50  0001 L CNN
+	1    3650 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR?
+U 1 1 5DAF5844
+P 3750 1200
+F 0 "#PWR?" H 3750 1050 50  0001 C CNN
+F 1 "+BATT" H 3765 1373 50  0000 C CNN
+F 2 "" H 3750 1200 50  0001 C CNN
+F 3 "" H 3750 1200 50  0001 C CNN
+	1    3750 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR?
+U 1 1 5DAF5845
+P 1250 1200
+F 0 "#PWR?" H 1250 1050 50  0001 C CNN
+F 1 "+BATT" H 1265 1373 50  0000 C CNN
+F 2 "" H 1250 1200 50  0001 C CNN
+F 3 "" H 1250 1200 50  0001 C CNN
+	1    1250 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DAF5846
+P 3250 1800
+F 0 "R?" V 3043 1800 50  0000 C CNN
+F 1 "330" V 3134 1800 50  0000 C CNN
+F 2 "" V 3180 1800 50  0001 C CNN
+F 3 "~" H 3250 1800 50  0001 C CNN
+	1    3250 1800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3400 1800 3450 1800
+Connection ~ 2400 1850
+Wire Wire Line
+	2150 1650 2150 1850
+Connection ~ 1250 1200
+Connection ~ 2450 2600
+Connection ~ 3350 2150
+Connection ~ 2150 1850
+Connection ~ 1850 2600
+Connection ~ 2850 2600
+Connection ~ 2150 2600
+Connection ~ 3750 2150
+$Comp
+L Device:R R?
+U 1 1 5DAF5847
+P 2150 1500
+F 0 "R?" H 2220 1546 50  0000 L CNN
+F 1 "330" H 2220 1455 50  0000 L CNN
+F 2 "" V 2080 1500 50  0001 C CNN
+F 3 "~" H 2150 1500 50  0001 C CNN
+	1    2150 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DAF5848
+P 2650 1850
+F 0 "R?" V 2443 1850 50  0000 C CNN
+F 1 "100" V 2534 1850 50  0000 C CNN
+F 2 "" V 2580 1850 50  0001 C CNN
+F 3 "~" H 2650 1850 50  0001 C CNN
+	1    2650 1850
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5DAF5849
+P 3350 2350
+F 0 "R?" H 3420 2396 50  0000 L CNN
+F 1 "100k" H 3420 2305 50  0000 L CNN
+F 2 "" V 3280 2350 50  0001 C CNN
+F 3 "~" H 3350 2350 50  0001 C CNN
+	1    3350 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5DAF584A
+P 3750 2350
+F 0 "C?" H 3865 2396 50  0000 L CNN
+F 1 "0.1u" H 3865 2305 50  0000 L CNN
+F 2 "" H 3788 2200 50  0001 C CNN
+F 3 "~" H 3750 2350 50  0001 C CNN
+	1    3750 2350
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
