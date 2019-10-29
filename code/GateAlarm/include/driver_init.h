@@ -43,10 +43,11 @@
 
 #include <clkctrl.h>
 
+#include <rtc.h>
+
 #include <interrupt_avr8.h>
 #include <tcb.h>
 
-#include <evsys.h>
 #include <cpuint.h>
 #include <slpctrl.h>
 #include <bod.h>

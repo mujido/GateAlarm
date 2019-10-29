@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief TCB related functionality implementation.
+ * \brief RTC related functionality implementation.
  *
  (c) 2018 Microchip Technology Inc. and its subsidiaries.
 
@@ -26,44 +26,49 @@
  */
 
 /**
- * \addtogroup doc_driver_tcb
+ * \defgroup doc_driver_rtc_init RTC Init Driver
+ * \ingroup doc_driver_rtc
  *
- * \section doc_driver_tcb_rev Revision History
+ * \section doc_driver_rtc_rev Revision History
  * - v0.0.0.1 Initial Commit
  *
  *@{
  */
-#include <tcb.h>
+#include <rtc.h>
 
 /**
- * \brief Initialize tcb interface
- *
+ * \brief Initialize rtc interface
  * \return Initialization status.
  */
-int8_t TIMER_0_init()
+int8_t RTC_0_init()
 {
 
-	TCB0.CCMP = 0x8000; /* Compare or Capture: 0x8000 */
+	while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
+	}
 
-	// TCB0.CNT = 0x0; /* Count: 0x0 */
+	// RTC.CMP = 0x0; /* Compare: 0x0 */
 
-	// TCB0.CTRLB = 0 << TCB_ASYNC_bp /* Asynchronous Enable: disabled */
-	//		 | 0 << TCB_CCMPEN_bp /* Pin Output Enable: disabled */
-	//		 | 0 << TCB_CCMPINIT_bp /* Pin Initial State: disabled */
-	//		 | TCB_CNTMODE_INT_gc; /* Periodic Interrupt */
+	// RTC.CNT = 0x0; /* Counter: 0x0 */
 
-	TCB0.DBGCTRL = 1 << TCB_DBGRUN_bp; /* Debug Run: enabled */
+	RTC.CTRLA = RTC_PRESCALER_DIV1_gc   /* 1 */
+	            | 1 << RTC_RTCEN_bp     /* Enable: enabled */
+	            | 1 << RTC_RUNSTDBY_bp; /* Run In Standby: enabled */
 
-	TCB0.EVCTRL = 1 << TCB_CAPTEI_bp    /* Event Input Enable: enabled */
-	              | 0 << TCB_EDGE_bp    /* Event Edge: disabled */
-	              | 1 << TCB_FILTER_bp; /* Input Capture Noise Cancellation Filter: enabled */
+	RTC.PER = 0x400; /* Period: 0x400 */
 
-	TCB0.INTCTRL = 1 << TCB_CAPT_bp; /* Capture or Timeout: enabled */
+	RTC.CLKSEL = RTC_CLKSEL_INT1K_gc; /* 32KHz divided by 32 */
 
-	TCB0.CTRLA = TCB_CLKSEL_CLKDIV1_gc  /* CLK_PER (No Prescaling) */
-	             | 0 << TCB_ENABLE_bp   /* Enable: disabled */
-	             | 1 << TCB_RUNSTDBY_bp /* Run Standby: enabled */
-	             | 0 << TCB_SYNCUPD_bp; /* Synchronize Update: disabled */
+	RTC.DBGCTRL = 1 << RTC_DBGRUN_bp; /* Run in debug: enabled */
+
+	RTC.INTCTRL = 0 << RTC_CMP_bp    /* Compare Match Interrupt enable: disabled */
+	              | 1 << RTC_OVF_bp; /* Overflow Interrupt enable: enabled */
+
+	// RTC.PITCTRLA = RTC_PERIOD_OFF_gc /* Off */
+	//		 | 0 << RTC_PITEN_bp; /* Enable: disabled */
+
+	// RTC.PITDBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */
+
+	// RTC.PITINTCTRL = 0 << RTC_PI_bp; /* Periodic Interrupt: disabled */
 
 	return 0;
 }

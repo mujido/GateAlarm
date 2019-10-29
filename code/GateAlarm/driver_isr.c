@@ -35,29 +35,25 @@
 
 #include <driver_init.h>
 #include <compiler.h>
+#include "rtctime.h"
+#include "gate_control.h"
 
 volatile bool gate_open = false;
 
-static inline bool gate_is_open()
+ISR(RTC_CNT_vect)
 {
-    return GATE_get_level() == true;
-}
+    // PA1_toggle_level();
+    RTC.CNT = 0;
 
-static inline void gate_disable_open_timer()
-{
-    TCB0.CTRLA &= ~TCB_ENABLE_bm;
-}
+    rtc_increment_overflow_counter();
 
-static inline void gate_enable_open_timer()
-{
-    TCB0.CNT = 0;
-    TCB0.CTRLA |= TCB_ENABLE_bm;
+    /* Interrupt flag has to be cleared manually */
+    RTC.INTFLAGS = RTC_OVF_bm | RTC_CMP_bm;
 }
 
 ISR(TCB0_INT_vect)
 {
-    gate_disable_open_timer();
-    gate_open = gate_is_open();
+    gate_ctrl_switch_state(gate_get_actual_state());
 
 	/**
 	 * The interrupt flag is cleared by writing 1 to it, or when the Capture register
@@ -73,10 +69,18 @@ ISR(BOD_VLM_vect)
 
 ISR(PORTA_PORT_vect)
 {
-    if (gate_open && !gate_is_open())
+    if (VPORTA_INTFLAGS & (1 << 7))
+        gate_ctrl_switch_state(GATE_OPEN_TIME_WAIT);
+
+    if (VPORTA_INTFLAGS & (1 << 2))
     {
-        gate_open = false;
-        gate_enable_open_timer();
+        PA1_toggle_level();
+
+        // first force a reset
+        gate_ctrl_switch_state(GATE_CLOSED);
+
+        gate_ctrl_switch_state(gate_get_actual_state());
+
     }
 
 	/* Clear interrupt flags */

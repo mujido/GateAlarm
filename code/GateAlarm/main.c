@@ -2,7 +2,10 @@
 #include <util/delay.h>
 #include <avr/sleep.h>
 
-extern volatile bool gate_open;
+#include "rtctime.h"
+#include "gate_control.h"
+
+volatile GateState gate_current_state = GATE_INIT;
 
 static inline void sleepctrl_set_standby_mode()
 {
@@ -16,16 +19,6 @@ static inline void sleepctrl_set_powerdown_mode()
  	                | SLPCTRL_SMODE_PDOWN_gc; /* Power Down Mode */
 }
 
-static void setup_wait_for_gate_open()
-{
-    // interrupt when gate open for threshold time
-}
-
-static void setup_wait_for_gate_close()
-{
-    // interrupt when gate closed for threshold time
-}
-
 int main(void)
 {
 	/* Initializes MCU, drivers and middleware */
@@ -33,10 +26,20 @@ int main(void)
 
     //sleepctrl_set_powerdown_mode();
     //GATE_set_isc(PORT_ISC_enum)
-	
-	/* Replace with your application code */
+
+    PA1_set_dir(PORT_DIR_OUT);
+    PA1_set_level(true);
+
+    SHUTDOWN_set_dir(PORT_DIR_IN);
+    while (!SHUTDOWN_get_level())
+        ;
+
+    SHUTDOWN_set_isc(PORT_ISC_FALLING_gc);
+
+    gate_ctrl_switch_state(gate_get_actual_state());
+
 	while (1) {
-		ESPPWR_set_level(!gate_open);
+		ESPPWR_set_level(gate_current_state == GATE_OPEN);
         sleep_cpu();
 	}
 }

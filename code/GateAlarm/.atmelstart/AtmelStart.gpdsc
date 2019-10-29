@@ -43,7 +43,7 @@
         <file category="doc" condition="ARMCC, GCC, IAR" name="modules/bod/doc/bod.rst"/>
         <file category="doc" condition="ARMCC, GCC, IAR" name="modules/clkctrl/doc/clkctrl.rst"/>
         <file category="doc" condition="ARMCC, GCC, IAR" name="modules/cpuint/doc/cpuint.rst"/>
-        <file category="doc" condition="ARMCC, GCC, IAR" name="modules/evsys/doc/evsys.rst"/>
+        <file category="doc" condition="ARMCC, GCC, IAR" name="modules/rtc/doc/rtc.rst"/>
         <file category="doc" condition="ARMCC, GCC, IAR" name="modules/slpctrl/doc/slpctrl.rst"/>
         <file category="doc" condition="ARMCC, GCC, IAR" name="modules/timer/doc/tcb.rst"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="main.c"/>
@@ -54,24 +54,25 @@
         <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/mainpage.dox"/>
         <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/generator/doxyfile.doxygen"/>
         <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/generator/DoxygenLayout.xml"/>
+        <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/rtc.dox"/>
         <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/system.dox"/>
         <file category="other" condition="ARMCC, GCC, IAR" name="doxygen/timer.dox"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/bod.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/ccp.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/clkctrl.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/cpuint.h"/>
-        <file category="header" condition="ARMCC, GCC, IAR" name="include/evsys.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/port.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/protected_io.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/rstctrl.h"/>
+        <file category="header" condition="ARMCC, GCC, IAR" name="include/rtc.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/slpctrl.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/system.h"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="include/tcb.h"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/bod.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/clkctrl.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/cpuint.c"/>
-        <file category="source" condition="ARMCC, GCC, IAR" name="src/evsys.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/protected_io.S"/>
+        <file category="source" condition="ARMCC, GCC, IAR" name="src/rtc.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/slpctrl.c"/>
         <file category="source" condition="ARMCC, GCC, IAR" name="src/tcb.c"/>
         <file category="header" condition="ARMCC, GCC, IAR" name="utils/assembler.h"/>

@@ -1,7 +1,7 @@
 /**
  * \file
  *
- * \brief EVSYS related functionality declaration.
+ * \brief RTC related functionality declaration.
  *
  (c) 2018 Microchip Technology Inc. and its subsidiaries.
 
@@ -25,19 +25,20 @@
  *
  */
 
-#ifndef EVSYS_H_INCLUDED
-#define EVSYS_H_INCLUDED
+#ifndef RTC_H_INCLUDED
+#define RTC_H_INCLUDED
 
 #include <compiler.h>
+#include <utils_assert.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int8_t EVENT_SYSTEM_0_init();
+int8_t RTC_0_init();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* EVSYS_H_INCLUDED */
+#endif /* RTC_H_INCLUDED */

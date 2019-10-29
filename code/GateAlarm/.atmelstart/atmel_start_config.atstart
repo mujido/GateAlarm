@@ -38,7 +38,7 @@ drivers:
       enable_main: true
       enable_osc16m: false
       enable_osc20m: false
-      enable_osculp1k: false
+      enable_osculp1k: true
       enable_osculp32k: true
       enable_tcd0: false
       enable_xosc32kctrla: false
@@ -59,6 +59,39 @@ drivers:
           external: false
           external_frequency: 0
         configuration: {}
+  RTC_0:
+    user_label: RTC_0
+    definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::RTC::driver_config_definition::RTC::Drivers:RTC:Init
+    functionality: RTC
+    api: Drivers:RTC:Init
+    configuration:
+      enable_rtc: true
+      inc_isr_harness: true
+      rtc_clksel_clksel: 32KHz divided by 32
+      rtc_cmp: 0
+      rtc_cnt: 0
+      rtc_ctrla_prescaler: '1'
+      rtc_ctrla_rtcen: true
+      rtc_ctrla_runstdby: true
+      rtc_dbgctrl_dbgrun: true
+      rtc_intctrl_cmp: false
+      rtc_intctrl_ovf: true
+      rtc_per: 1024
+      rtc_pitctrla_period: 'Off'
+      rtc_pitctrla_piten: false
+      rtc_pitdbgctrl_dbgrun: false
+      rtc_pitintctrl_pi: false
+    optional_signals: []
+    variant: null
+    clocks:
+      domain_group:
+        nodes:
+        - name: RTC
+          input: RTC Clock (CLK_RTC)
+          external: false
+          external_frequency: 0
+        configuration:
+          rtc_clock_source: RTC Clock (CLK_RTC)
   TIMER_0:
     user_label: TIMER_0
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::TCB0::driver_config_definition::Init::Drivers:TCB:Init
@@ -66,17 +99,17 @@ drivers:
     api: Drivers:TCB:Init
     configuration:
       inc_isr_harness: true
-      tcb_ccmp: 65535
+      tcb_ccmp: 32768
       tcb_cnt: 0
       tcb_ctrla_clksel: CLK_PER (No Prescaling)
-      tcb_ctrla_enable: true
+      tcb_ctrla_enable: false
       tcb_ctrla_runstdby: true
       tcb_ctrla_syncupd: false
       tcb_ctrlb_async: false
       tcb_ctrlb_ccmpen: false
       tcb_ctrlb_ccmpinit: false
-      tcb_ctrlb_cntmode: Periodic Timeout
-      tcb_dbgctrl_dbgrun: false
+      tcb_ctrlb_cntmode: Periodic Interrupt
+      tcb_dbgctrl_dbgrun: true
       tcb_evctrl_captei: true
       tcb_evctrl_edge: false
       tcb_evctrl_filter: true
@@ -92,35 +125,6 @@ drivers:
           external_frequency: 0
         configuration:
           tcb_clock_source: Main Clock (CLK_MAIN)
-  EVENT_SYSTEM_0:
-    user_label: EVENT_SYSTEM_0
-    definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::EVSYS::driver_config_definition::EVSYS::Drivers:EVSYS:Init
-    functionality: Event_System
-    api: Drivers:EVSYS:Init
-    configuration:
-      evsys_asyncch0_asyncch0: Asynchronous Event from Pin PA7
-      evsys_asyncch1_asyncch1: 'Off'
-      evsys_asyncch2_asyncch2: 'Off'
-      evsys_asyncch3_asyncch3: 'Off'
-      evsys_asyncuser0_asyncuser0: Asynchronous Event Channel 0
-      evsys_asyncuser10_asyncuser10: 'Off'
-      evsys_asyncuser1_asyncuser1: 'Off'
-      evsys_asyncuser2_asyncuser2: 'Off'
-      evsys_asyncuser3_asyncuser3: 'Off'
-      evsys_asyncuser4_asyncuser4: 'Off'
-      evsys_asyncuser5_asyncuser5: 'Off'
-      evsys_asyncuser6_asyncuser6: 'Off'
-      evsys_asyncuser7_asyncuser7: 'Off'
-      evsys_asyncuser8_asyncuser8: 'Off'
-      evsys_asyncuser9_asyncuser9: 'Off'
-      evsys_syncch0_syncch0: 'Off'
-      evsys_syncch1_syncch1: 'Off'
-      evsys_syncuser0_syncuser0: 'Off'
-      evsys_syncuser1_syncuser1: 'Off'
-    optional_signals: []
-    variant: null
-    clocks:
-      domain_group: null
   CPUINT:
     user_label: CPUINT
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::CPUINT::driver_config_definition::CPUINT::Drivers:CPUINT:Init
@@ -173,12 +177,17 @@ drivers:
         configuration:
           bod_clock_source: 32KHz divided by 32
 pads:
-  ESPPWR:
+  PA6:
     name: PA6
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::pad::PA6
-    mode: Digital output
-    user_label: ESPPWR
-    configuration: null
+    mode: Advanced
+    user_label: PA6
+    configuration:
+      pad_dir: 'Off'
+      pad_initial_level: Low
+      pad_invert: Not inverted
+      pad_isc: Interrupt disabled but input buffer enabled
+      pad_pull_config: 'Off'
   GATE:
     name: PA7
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::pad::PA7
@@ -188,18 +197,18 @@ pads:
       pad_dir: In
       pad_initial_level: Low
       pad_invert: Not inverted
-      pad_isc: Sense low Level
+      pad_isc: Interrupt disabled but input buffer enabled
       pad_pull_config: 'Off'
-  PA2:
+  SHUTDOWN:
     name: PA2
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::pad::PA2
     mode: Advanced
-    user_label: PA2
+    user_label: SHUTDOWN
     configuration:
       pad_dir: 'Off'
       pad_initial_level: Low
       pad_invert: Not inverted
-      pad_isc: Interrupt disabled but input buffer enabled
+      pad_isc: Digital Input Buffer disabled
       pad_pull_config: 'Off'
   PA1:
     name: PA1
@@ -210,7 +219,7 @@ pads:
       pad_dir: 'Off'
       pad_initial_level: Low
       pad_invert: Not inverted
-      pad_isc: Interrupt disabled but input buffer enabled
+      pad_isc: Digital Input Buffer disabled
       pad_pull_config: 'Off'
   PA0:
     name: PA0
@@ -221,18 +230,18 @@ pads:
       pad_dir: 'Off'
       pad_initial_level: Low
       pad_invert: Not inverted
-      pad_isc: Interrupt disabled but input buffer enabled
+      pad_isc: Digital Input Buffer disabled
       pad_pull_config: 'Off'
-  PA3:
+  ESPPWR:
     name: PA3
     definition: Atmel:ATtiny417_81x_161x_321x_drivers:1.0.0::ATtiny212-SSFR::pad::PA3
     mode: Advanced
-    user_label: PA3
+    user_label: ESPPWR
     configuration:
-      pad_dir: 'Off'
+      pad_dir: Out
       pad_initial_level: Low
-      pad_invert: Not inverted
-      pad_isc: Interrupt disabled but input buffer enabled
+      pad_invert: Inverted
+      pad_isc: Digital Input Buffer disabled
       pad_pull_config: 'Off'
 toolchain_options:
 - definition:

@@ -42,12 +42,6 @@ void TIMER_0_initialization(void)
 	TIMER_0_init();
 }
 
-void EVENT_SYSTEM_0_initialization(void)
-{
-
-	EVENT_SYSTEM_0_init();
-}
-
 /**
  * \brief System initialization
  */
@@ -95,7 +89,7 @@ void system_init()
 	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
 	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
 	    // <PORT_ISC_LEVEL_gc"> Sense low Level
-	    PORT_ISC_INTDISABLE_gc);
+	    PORT_ISC_INPUT_DISABLE_gc);
 
 	/* PORT setting on PA1 */
 
@@ -137,11 +131,11 @@ void system_init()
 	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
 	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
 	    // <PORT_ISC_LEVEL_gc"> Sense low Level
-	    PORT_ISC_INTDISABLE_gc);
+	    PORT_ISC_INPUT_DISABLE_gc);
 
 	/* PORT setting on PA2 */
 
-	PA2_set_dir(
+	SHUTDOWN_set_dir(
 	    // <y> Pin direction
 	    // <id> pad_dir
 	    // <PORT_DIR_OFF"> Off
@@ -149,28 +143,28 @@ void system_init()
 	    // <PORT_DIR_OUT"> Out
 	    PORT_DIR_OFF);
 
-	PA2_set_level(
+	SHUTDOWN_set_level(
 	    // <y> Initial level
 	    // <id> pad_initial_level
 	    // <false"> Low
 	    // <true"> High
 	    false);
 
-	PA2_set_pull_mode(
+	SHUTDOWN_set_pull_mode(
 	    // <y> Pull configuration
 	    // <id> pad_pull_config
 	    // <PORT_PULL_OFF"> Off
 	    // <PORT_PULL_UP"> Pull-up
 	    PORT_PULL_OFF);
 
-	PA2_set_inverted(
+	SHUTDOWN_set_inverted(
 	    // <y> Invert I/O on pin
 	    // <id> pad_invert
 	    // <false"> Not inverted
 	    // <true"> Inverted
 	    false);
 
-	PA2_set_isc(
+	SHUTDOWN_set_isc(
 	    // <y> Pin Input/Sense Configuration
 	    // <id> pad_isc
 	    // <PORT_ISC_INTDISABLE_gc"> Interrupt disabled but input buffer enabled
@@ -179,54 +173,17 @@ void system_init()
 	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
 	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
 	    // <PORT_ISC_LEVEL_gc"> Sense low Level
-	    PORT_ISC_INTDISABLE_gc);
+	    PORT_ISC_INPUT_DISABLE_gc);
 
 	/* PORT setting on PA3 */
 
-	PA3_set_dir(
+	ESPPWR_set_dir(
 	    // <y> Pin direction
 	    // <id> pad_dir
 	    // <PORT_DIR_OFF"> Off
 	    // <PORT_DIR_IN"> In
 	    // <PORT_DIR_OUT"> Out
-	    PORT_DIR_OFF);
-
-	PA3_set_level(
-	    // <y> Initial level
-	    // <id> pad_initial_level
-	    // <false"> Low
-	    // <true"> High
-	    false);
-
-	PA3_set_pull_mode(
-	    // <y> Pull configuration
-	    // <id> pad_pull_config
-	    // <PORT_PULL_OFF"> Off
-	    // <PORT_PULL_UP"> Pull-up
-	    PORT_PULL_OFF);
-
-	PA3_set_inverted(
-	    // <y> Invert I/O on pin
-	    // <id> pad_invert
-	    // <false"> Not inverted
-	    // <true"> Inverted
-	    false);
-
-	PA3_set_isc(
-	    // <y> Pin Input/Sense Configuration
-	    // <id> pad_isc
-	    // <PORT_ISC_INTDISABLE_gc"> Interrupt disabled but input buffer enabled
-	    // <PORT_ISC_BOTHEDGES_gc"> Sense Both Edges
-	    // <PORT_ISC_RISING_gc"> Sense Rising Edge
-	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
-	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
-	    // <PORT_ISC_LEVEL_gc"> Sense low Level
-	    PORT_ISC_INTDISABLE_gc);
-
-	/* PORT setting on PA6 */
-
-	// Set pin direction to output
-	ESPPWR_set_dir(PORT_DIR_OUT);
+	    PORT_DIR_OUT);
 
 	ESPPWR_set_level(
 	    // <y> Initial level
@@ -234,6 +191,73 @@ void system_init()
 	    // <false"> Low
 	    // <true"> High
 	    false);
+
+	ESPPWR_set_pull_mode(
+	    // <y> Pull configuration
+	    // <id> pad_pull_config
+	    // <PORT_PULL_OFF"> Off
+	    // <PORT_PULL_UP"> Pull-up
+	    PORT_PULL_OFF);
+
+	ESPPWR_set_inverted(
+	    // <y> Invert I/O on pin
+	    // <id> pad_invert
+	    // <false"> Not inverted
+	    // <true"> Inverted
+	    true);
+
+	ESPPWR_set_isc(
+	    // <y> Pin Input/Sense Configuration
+	    // <id> pad_isc
+	    // <PORT_ISC_INTDISABLE_gc"> Interrupt disabled but input buffer enabled
+	    // <PORT_ISC_BOTHEDGES_gc"> Sense Both Edges
+	    // <PORT_ISC_RISING_gc"> Sense Rising Edge
+	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
+	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
+	    // <PORT_ISC_LEVEL_gc"> Sense low Level
+	    PORT_ISC_INPUT_DISABLE_gc);
+
+	/* PORT setting on PA6 */
+
+	PA6_set_dir(
+	    // <y> Pin direction
+	    // <id> pad_dir
+	    // <PORT_DIR_OFF"> Off
+	    // <PORT_DIR_IN"> In
+	    // <PORT_DIR_OUT"> Out
+	    PORT_DIR_OFF);
+
+	PA6_set_level(
+	    // <y> Initial level
+	    // <id> pad_initial_level
+	    // <false"> Low
+	    // <true"> High
+	    false);
+
+	PA6_set_pull_mode(
+	    // <y> Pull configuration
+	    // <id> pad_pull_config
+	    // <PORT_PULL_OFF"> Off
+	    // <PORT_PULL_UP"> Pull-up
+	    PORT_PULL_OFF);
+
+	PA6_set_inverted(
+	    // <y> Invert I/O on pin
+	    // <id> pad_invert
+	    // <false"> Not inverted
+	    // <true"> Inverted
+	    false);
+
+	PA6_set_isc(
+	    // <y> Pin Input/Sense Configuration
+	    // <id> pad_isc
+	    // <PORT_ISC_INTDISABLE_gc"> Interrupt disabled but input buffer enabled
+	    // <PORT_ISC_BOTHEDGES_gc"> Sense Both Edges
+	    // <PORT_ISC_RISING_gc"> Sense Rising Edge
+	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
+	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
+	    // <PORT_ISC_LEVEL_gc"> Sense low Level
+	    PORT_ISC_INTDISABLE_gc);
 
 	/* PORT setting on PA7 */
 
@@ -275,13 +299,13 @@ void system_init()
 	    // <PORT_ISC_FALLING_gc"> Sense Falling Edge
 	    // <PORT_ISC_INPUT_DISABLE_gc"> Digital Input Buffer disabled
 	    // <PORT_ISC_LEVEL_gc"> Sense low Level
-	    PORT_ISC_LEVEL_gc);
+	    PORT_ISC_INTDISABLE_gc);
 
 	CLKCTRL_init();
 
-	TIMER_0_initialization();
+	RTC_0_init();
 
-	EVENT_SYSTEM_0_initialization();
+	TIMER_0_initialization();
 
 	CPUINT_init();
 
