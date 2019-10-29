@@ -231,7 +231,8 @@ static inline void PORTA_toggle_port_level(const uint8_t mask)
  */
 static inline void PORTA_toggle_pin_level(const uint8_t pin)
 {
-	VPORTA.IN |= 1 << pin;
+	// VPORTA.IN |= 1 << pin;
+    VPORTA.IN = 1 << pin;
 }
 
 /**
