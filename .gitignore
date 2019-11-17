@@ -13,3 +13,6 @@ code/GateAlarm/Release
 
 # Hardware backup files
 hardware/*-bak
+
+# ESP8266 output
+esp8266_code/**/.output

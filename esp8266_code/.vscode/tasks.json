@@ -1,0 +1,63 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558 
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build Gate Alarm",
+            "command": "make",
+            "args": [
+                "SDK=/home/kurt/ESP/sdk",
+                "COMPILE=gcc",
+                "BOOT=new",
+                "APP=1",
+                "SPI_SPEED=40",
+                "SPI_MODE=QIO",
+                "SPI_SIZE_MAP=6"
+            ],
+            "options": {
+                "cwd": "/home/kurt/ESP/sdk/gate_alarm"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Clean Gate Alarm",
+            "command": "make",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "/home/kurt/ESP/sdk/gate_alarm"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "type": "shell",
+            "label": "Flash ESP",
+            "command": "make",
+            "args": [
+                "COMPILE=gcc",
+                "BOOT=new",
+                "APP=1",
+                "SPI_SPEED=40",
+                "SPI_MODE=QIO",
+                "SPI_SIZE_MAP=6"
+            ],
+            "options": {
+                "cwd": "/home/kurt/ESP/sdk/gate_alarm",
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        }
+    ]
+}
