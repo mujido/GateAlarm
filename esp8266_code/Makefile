@@ -1,157 +1,104 @@
-#############################################################
-# Required variables for each makefile
-# Discard this section from all parent makefiles
-# Expected variables (with automatic defaults):
-#   CSRCS (all "C" files in the dir)
-#   SUBDIRS (all subdirs with a Makefile)
-#   GEN_LIBS - list of libs to be generated ()
-#   GEN_IMAGES - list of object file images to be generated ()
-#   GEN_BINS - list of binaries to be generated ()
-#   COMPONENTS_xxx - a list of libs/objs in the form
-#     subdir/lib to be extracted and rolled up into
-#     a generated lib/image xxx.a ()
-#
-TARGET = eagle
-#FLAVOR = release
-FLAVOR = debug
+.PHONY: all user1
+all: user1
 
-#EXTRA_CCFLAGS += -u
+SDK = $(HOME)/ESP/sdk
+CC = xtensa-lx106-elf-gcc
+AR = xtensa-lx106-elf-ar
+OBJCOPY = xtensa-lx106-elf-objcopy
+NM = xtensa-lx106-elf-nm
 
-ifndef PDIR # {
-GEN_IMAGES= eagle.app.v6.out
-GEN_BINS= eagle.app.v6.bin
-SPECIAL_MKTARGETS=$(APP_MKTARGETS)
-SUBDIRS=    \
-	user
-ifdef AT_OPEN_SRC
-#SUBDIRS +=    \
-#	at
-endif
-endif # } PDIR
+APP = 1
+FLASH_MODE = 0
+FLASH_CLKDIV = 0
+FLASH_SIZE_MAP = 6
 
-APPDIR = .
-LDDIR = ../ld
+CPPFLAGS = \
+	-I$(SDK)/include \
+	-I$(SDK)/third_party/include \
+	-Iinclude \
+	-I.  \
+	-DLWIP_OPEN_SRC \
+	-DICACHE_FLASH \
+	-DUSE_OPTIMIZE_PRINTF \
+	-DSPI_FLASH_SIZE_MAP=6 \
+	 
 
-CCFLAGS += -Os
-
-ifdef ESP_AT_FW_VERSION
-CCFLAGS += -DESP_AT_FW_VERSION=\"$(ESP_AT_FW_VERSION)\"
-endif
-
-CCFLAGS += -DLWIP_OPEN_SRC
-
-TARGET_LDFLAGS =		\
-	-nostdlib		\
+CFLAGS = \
+	-g \
+	-Os \
+	$(CPPFLAGS) \
+	-Wpointer-arith \
+	-Wundef \
+	-Werror \
 	-Wl,-EL \
-	--longcalls \
-	--text-section-literals
+	-fno-inline-functions \
+	-nostdlib \
+	-mlongcalls \
+	-mtext-section-literals \
+	-ffunction-sections \
+	-fdata-sections \
+	-fno-builtin-printf
 
-ifeq ($(FLAVOR),debug)
-    TARGET_LDFLAGS += -g -O2
-endif
+SYSLIBS = \
+	-lc \
+	-lgcc \
+	-lhal \
+	-lphy \
+	-lpp \
+	-lnet80211 \
+	-llwip \
+	-lwpa \
+	-lwpa2 \
+	-lcrypto \
+	-lmain \
+	-ljson \
+	-lupgrade \
+	-lmbedtls \
+	-lwps \
+	-lsmartconfig \
+	-lairkiss
 
-ifeq ($(FLAVOR),release)
-    TARGET_LDFLAGS += -g -O0
-endif
+LDFLAGS = \
+	-nostdlib \
+	-L$(SDK)/lib \
+	-T../ld/eagle.app.v6.new.2048.ld \
+	-Wl,--no-check-sections \
+	-Wl,--gc-sections \
+	-u call_user_start \
+	-Wl,-static -Wl,--start-group $(SYSLIBS) $(OBJS) -Wl,--end-group
 
-COMPONENTS_eagle.app.v6 = \
-	user/libuser.a
-	
-LINKFLAGS_eagle.app.v6 = \
-	-L../lib        \
-	-nostdlib	\
-    -T$(LD_FILE)   \
-	-Wl,--no-check-sections	\
-	-Wl,--gc-sections	\
-    -u call_user_start	\
-	-Wl,-static						\
-	-Wl,--start-group					\
-	-lc					\
-	-lgcc					\
-	-lhal					\
-	-lphy	\
-	-lpp	\
-	-lnet80211	\
-	-llwip	\
-	-lwpa	\
-	-lwpa2	\
-	-lcrypto	\
-	-lmain	\
-	-ljson	\
-	-lupgrade	\
-	-lmbedtls		\
-	-lwps		\
-	-lsmartconfig	\
-	-lairkiss		\
-	$(DEP_LIBS_eagle.app.v6)					
+SRC = udp_test.c
 
-ifndef AT_OPEN_SRC
-LINKFLAGS_eagle.app.v6 +=    \
-	-lat
-endif
+OUT = output
 
-LINKFLAGS_eagle.app.v6 +=    \
-	-Wl,--end-group
-DEPENDS_eagle.app.v6 = \
-                $(LD_FILE) \
-                $(LDDIR)/eagle.rom.addr.v6.ld
+OBJS = $(SRC:%.c=$(OUT)/%.o)
 
-#############################################################
-# Configuration i.e. compile options etc.
-# Target specific stuff (defines etc.) goes in here!
-# Generally values applying to a tree are captured in the
-#   makefile at its root level - these are then overridden
-#   for a subtree within the makefile rooted therein
-#
+ELF = gate_alarm.app.v6.out
+OUT_ELF = $(OUT)/$(ELF)
+OUT_FLASHBIN = $(OUT)/gate_alarm.user1.app.flash.bin
 
-#UNIVERSAL_TARGET_DEFINES =		\
+$(OUT):
+	mkdir -p $(OUT)
 
-# Other potential configuration flags include:
-#	-DTXRX_TXBUF_DEBUG
-#	-DTXRX_RXBUF_DEBUG
-#	-DWLAN_CONFIG_CCX
-CONFIGURATION_DEFINES =	-DICACHE_FLASH -DUSE_OPTIMIZE_PRINTF
+$(OBJS): | $(OUT)
 
-ifdef AT_OPEN_SRC
-CONFIGURATION_DEFINES +=    \
-	-DAT_OPEN_SRC
-endif
+user1: $(OUT_FLASHBIN)
 
-ifeq ($(APP),0)
-else
-CONFIGURATION_DEFINES +=    \
-	-DAT_UPGRADE_SUPPORT
-endif
+$(OUT_FLASHBIN): $(OUT_ELF)
+	$(OBJCOPY) --only-section .text -O binary $< $(OUT)/eagle.app.v6.text.bin
+	$(OBJCOPY) --only-section .data -O binary $< $(OUT)/eagle.app.v6.data.bin
+	$(OBJCOPY) --only-section .rodata -O binary $< $(OUT)/eagle.app.v6.rodata.bin
+	$(OBJCOPY) --only-section .irom0.text -O binary $< $(OUT)/eagle.app.v6.irom0text.bin	
+	cd $(OUT) && \
+		COMPILE=gcc python $(SDK)/tools/gen_appbin.py $(ELF) 2 $(FLASH_MODE) $(FLASH_CLKDIV) $(FLASH_SIZE_MAP) $(APP)
+	mv $(OUT)/eagle.app.flash.bin $(OUT_FLASHBIN)
 
-ifeq ($(SPI_SIZE_MAP),5)
-CONFIGURATION_DEFINES += -DFLASH_MAP=$(SPI_SIZE_MAP)
-endif
+$(OUT_ELF): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(OUT_ELF)
 
-DEFINES +=				\
-	$(UNIVERSAL_TARGET_DEFINES)	\
-	$(CONFIGURATION_DEFINES)
+$(OUT)/%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $^
 
-DDEFINES +=				\
-	$(UNIVERSAL_TARGET_DEFINES)	\
-	$(CONFIGURATION_DEFINES)
-
-
-#############################################################
-# Recursion Magic - Don't touch this!!
-#
-# Each subtree potentially has an include directory
-#   corresponding to the common APIs applicable to modules
-#   rooted at that subtree. Accordingly, the INCLUDE PATH
-#   of a module can only contain the include directories up
-#   its parent path, and not its siblings
-#
-# Required for each makefile to inherit from the parent
-#
-
-INCLUDES := $(INCLUDES) -I $(PDIR)include -I. -I$(SDK)/third_party/include
-PDIR := ../$(PDIR)
-sinclude $(PDIR)Makefile
-
-.PHONY: FORCE
-FORCE:
-
+.PHONY: clean
+clean:
+	rm -rf $(OUT)

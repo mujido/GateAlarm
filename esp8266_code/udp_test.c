@@ -215,7 +215,7 @@ void ICACHE_FLASH_ATTR wifi_status_update_cb(System_Event_t * evt)
 void ICACHE_FLASH_ATTR init_done(void)
 {
   os_printf("Init done called\r\n");
-  os_printf("Not sleeping now\r\n");
+  os_printf("Hello there stranger\r\n");
   // wifi_fpm_do_sleep(UINT32_MAX);
 }
 
