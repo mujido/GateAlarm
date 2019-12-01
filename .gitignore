@@ -16,3 +16,5 @@ hardware/*-bak
 
 # ESP8266 output
 esp8266_code/output
+
+hardware/gerber.zip
